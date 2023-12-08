@@ -43,7 +43,6 @@ while True:
     x0 = 0
     y0 = 0 
     r0 = math.hypot(int(img.shape[1]), int(img.shape[0]))
-    print(img.shape[0])
     for i in circles[0, :]:
         # draw the outer circle
         cv.circle(cimg, (i[0], i[1]), i[2], (0, 255, 0), 2)
@@ -61,7 +60,7 @@ while True:
             x1 = int(i[0]) - int(x0)
             y1 = int(y0) - int(i[1])
             dist = math.hypot(x1, y1)
-            # print(f'X{n}: {x1}, Y{n}: {y1}, R{n}: {dist}')
+            print(f'X{n}: {x1}, Y{n}: {y1}, R{n}: {dist}')
             n += 1
 
     cv.imshow('caps', cimg)
