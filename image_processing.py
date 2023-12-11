@@ -4,9 +4,18 @@ import cv2 as cv
 from datetime import datetime as dt
 
 print ('Ваше изображение должно находиться в папке imgs \n')
-imgName = input('Введите название файла c расширением: ')
-img = cv.imread(f'imgs/{imgName}', cv.IMREAD_GRAYSCALE)
-img = cv.resize(img, (int(img.shape[1]*0.7), int(img.shape[0]*0.7)))
+while True:
+    try:
+        imgName = input('Введите название файла c расширением: '+ '\n')
+        img = cv.imread(f'imgs/{imgName}', cv.IMREAD_GRAYSCALE)
+        img = cv.resize(img, (int(img.shape[1]*0.7), int(img.shape[0]*0.7)))
+        break
+    except AttributeError:
+        print('\nЧто-то пошло не так, попробуйте снова \n')
+    except KeyboardInterrupt:
+        print('\nЗавершение выполнения программы\n')
+        break
+
 cv.namedWindow('Coordinates finder')    
 
 def nothing(x):
@@ -68,10 +77,23 @@ while True:
     except TypeError:
         print('Упс! Ошибочка вышла, не перебарщивайте с параметрами!')
 
-    if cv.waitKey(1) & 0xFF == ord('s'):
-        cv.imwrite(f'imgs/circle_screen_{dt.now().hour}_{dt.now().minute}_{dt.now().second}.jpg', cimg)
+    except NameError:
+        break
 
-    if cv.waitKey(1) & 0xFF == ord('e'):
+    except KeyboardInterrupt:
+        print('\nЗавершение работы программы\n')
+        break
+        
+    try:
+        if cv.waitKey(1) & 0xFF == ord('s'):
+            cv.imwrite(f'imgs/circle_screen_{dt.now().hour}_{dt.now().minute}_{dt.now().second}.jpg', cimg)
+
+        if cv.waitKey(1) & 0xFF == ord('e'):
+            print('\nЗавершение работы программы\n')
+            break
+
+    except KeyboardInterrupt:
+        print('\nЗавершение работы программы\n')
         break
 
 cv.destroyAllWindows()
