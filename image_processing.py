@@ -3,10 +3,10 @@ import numpy as np
 import cv2 as cv
 from datetime import datetime as dt
 
-print ('Ваше изображение должно находиться в папке imgs \n')
+print ('\nВаше изображение должно находиться в папке imgs\n')
 while True:
     try:
-        imgName = input('Введите название файла c расширением: '+ '\n')
+        imgName = input('Введите название файла c расширением: ')
         img = cv.imread(f'imgs/{imgName}', cv.IMREAD_GRAYSCALE)
         img = cv.resize(img, (int(img.shape[1]*0.7), int(img.shape[0]*0.7)))
         break
@@ -51,26 +51,39 @@ while True:
 
         x0 = 0
         y0 = 0 
-        r0 = math.hypot(int(img.shape[1]), int(img.shape[0]))
+        r0 = math.hypot(int(cimg.shape[1]), int(cimg.shape[0]))
         for i in circles[0, :]:
             # draw the outer circle
-            cv.circle(cimg, (i[0], i[1]), i[2], (0, 255, 0), 2)
+            cv.circle(cimg, (i[0], i[1]), i[2], (0, 255, 0), 1)
             # draw the center of the circle
             cv.circle(cimg, (i[0], i[1]), 2, (0, 0, 255), 3)
-            if r0 > math.hypot(int(i[0]), (int(i[1])-int(img.shape[0]))):
+            if r0 > math.hypot(int(i[0]), (int(i[1])-int(cimg.shape[0]))):
                 x0 = i[0]
                 y0 = i[1]
-                r0 = math.hypot(int(i[0]), (int(i[1])-int(img.shape[0])))
+                r0 = math.hypot(int(i[0]), (int(i[1])-int(cimg.shape[0])))
 
         n = 1
         for i in circles[0, :]:
             if i[0] != x0 and i[1] != y0:
-                cv.line(cimg, (x0, y0), (i[0], i[1]), (255, 0, 0), 2)
+                cv.line(cimg, (x0, y0), (i[0], i[1]), (0, 0, 0), 1)
                 x1 = int(i[0]) - int(x0)
                 y1 = int(y0) - int(i[1])
                 dist = math.hypot(x1, y1)
+
+                if int(i[0])-50 < 0 and int(i[1])-15 > 0:
+                    cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0], i[1]-10), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA)
+                elif int(i[0])-50 < 0 and int(i[1])-15 < 0:
+                    cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0], i[1]+15), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA)
+                elif int(i[0])+150 > cimg.shape[1] and int(i[1])-15 < 0:
+                    cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0]-150, i[1]+15), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA)
+                elif int(i[0])+150 > cimg.shape[1]:
+                    cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0]-150, i[1]-10), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA)
+                else:
+                    cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0]-50, i[1]-10), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA) 
+                
                 print(f'X{n}: {x1}, Y{n}: {y1}, R{n}: {dist}')
                 n += 1
+        print('\n')
 
         cv.imshow('Coordinates finder', cimg)
 

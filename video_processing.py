@@ -90,6 +90,18 @@ while True:
                             x1 = int(i[0]) - int(x0)
                             y1 = int(y0) - int(i[1])
                             dist = math.hypot(x1, y1)
+
+                            if int(i[0])-50 < 0 and int(i[1])-15 > 0:
+                                cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0], i[1]-10), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA)
+                            elif int(i[0])-50 < 0 and int(i[1])-15 < 0:
+                                cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0], i[1]+15), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA)
+                            elif int(i[0])+150 > cimg.shape[1] and int(i[1])-15 < 0:
+                                cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0]-150, i[1]+15), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA)
+                            elif int(i[0])+150 > cimg.shape[1]:
+                                cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0]-150, i[1]-10), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA)
+                            else:
+                                cv.putText(cimg, f'X{n}:{x1}, Y{n}: {y1}', (i[0]-50, i[1]-10), cv.FONT_HERSHEY_SIMPLEX , 0.5, (255, 0, 0), 1, cv.LINE_AA)     
+                                                        
                             print(f'X{n}: {x1}, Y{n}: {y1}, R{n}: {dist}')
                             n += 1
 
