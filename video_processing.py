@@ -7,7 +7,7 @@ from os import mkdir
 folderName = f'{dt.now().day}.{dt.now().month}.{dt.now().year} {dt.now().hour}_{dt.now().minute}_{dt.now().second}'
 mkdir(f'imgs/{folderName}')
 
-i = 0
+q = 0
 k = 0
 cap = cv.VideoCapture(0)
 screenCheck = False
@@ -24,10 +24,10 @@ while True:
                 cv.imshow('Video', frame)
 
                 if cv.waitKey(1) & 0xFF==ord('s'):
-                    screenPath = f'imgs/{folderName}/screen{i}.png'
+                    screenPath = f'imgs/{folderName}/screen{q}.png'
                     cv.imwrite(screenPath, frame)
                     screenCheck = True
-                    i += 1
+                    q += 1
                     cv.destroyWindow('Video')
                     break
 
